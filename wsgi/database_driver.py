@@ -15,6 +15,10 @@ def post_userinfo(userinfo):
         info[k] = v
     return db.userinfo.insert_one(info)
 
+def post_status_userinfo(phoneno,stat):
+    db = client.backend
+    db.userinfo.update({ "phonenumber": phoneno },{ "$set":{"status":stat}},upsert=True)
+    return None
 
 def get_userinfo(phonenumber):
     db = client.backend
