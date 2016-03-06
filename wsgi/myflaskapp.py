@@ -36,8 +36,27 @@ def get_userinfo(phonenumber):
 def admin_login():
     return render_template("admin_login.html")
 
-
-@app.route('/admin_student_status.html')
+@app.route('/admin_student_status.html',methods=['POST'])
+def test():
+	if('approve' not in request.form):
+		data = request.form.get('decline')
+		phno = data.split(":")[0]
+		stat = data.split(":")[1]
+		database_driver.post_status_userinfo(phno,stat)
+		#pending = database_driver.get_students_info()
+		return ('',204)
+		
+		
+	elif('decline' not in request.form):
+		data = request.form.get('approve')
+		phno = data.split(":")[0]
+		stat = data.split(":")[1]
+		database_driver.post_status_userinfo(phno,stat)
+		#pending = database_driver.get_students_info()
+		return ('',204)
+		
+	
+@app.route('/admin_student_status.html',methods=['GET'])
 def admin_student_status():
     pending = database_driver.get_students_info()
     return render_template('admin_student_status.html', pending=pending)
