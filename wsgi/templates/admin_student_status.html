@@ -1,18 +1,65 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">
 <html>
-    <body>
+	<script>
+		function init()
+		{
+			
+		}
+		function changeRed(event)
+		{
+			var arr_elms = [];
+			arr_elms = document.body.getElementsByTagName("div");
+			var elms_len = arr_elms.length;
+			for (var i = 0; i < elms_len; i++) {
+			  if(arr_elms[i].getAttribute("phonenumber") != null){ 
+			  	//alert(event.target.value);
+			  	//alert(arr_elms[i].getAttribute("phonenumber"));
+				if(event.target.value.search(arr_elms[i].getAttribute("phonenumber"))==0)
+				{
+					arr_elms[i].style.color="red";
+					break;
+				}
+			   
+			   }
+			}
+			
+		}
+		function changeGreen(event)
+		{
+			var arr_elms = [];
+			arr_elms = document.body.getElementsByTagName("div");
+			var elms_len = arr_elms.length;
+			for (var i = 0; i < elms_len; i++) {
+			  if(arr_elms[i].getAttribute("phonenumber") != null){  
+				//alert(event.target.value);
+			  	//alert(arr_elms[i].getAttribute("phonenumber"));
+				if(event.target.value.search(arr_elms[i].getAttribute("phonenumber"))==0)
+				{
+					arr_elms[i].style.color="green";
+					break;
+				}
+			   
+			   }
+			}
+						
+		}
+	</script>
+	<body onload="init()">
         <div>
             <h2> Pending student info </h2>
         </div>
-        {% for student in pending %}
-        <div id="studentinfo" phonenumber="{{student.phonenumber}}">
-                {% for k, v in student.items() %}
-                    <label>{{k}}</label>&nbsp; <em>{{v}}</em>
-                {% endfor %}
-                <button>Approve</button>
-                <button>Decline</button>
-            </div>
+        <form action="" method="post">
+	        {% for student in pending %}
+    	    <div id="studentinfo" phonenumber="{{student.phonenumber}}">
+    	            {% for k, v in student.items() %}
+    	                <label>{{k}}</label>&nbsp; <em>{{v}}</em>
+    	            {% endfor %}
+    	            <button name="approve" value="{{student.phonenumber}}:approved" onclick="changeGreen(event)">Approve</button>
+    	            <button name="decline" value="{{student.phonenumber}}:declined" onclick="changeRed(event)">Decline</button>
+    	    </div>
+		
         {% endfor %}
+        </form>
             <h2> Approved student info </h2>
             <!--
                -todo
